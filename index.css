@@ -1,0 +1,88 @@
+* {
+	box-sizing: border-box;
+	scrollbar-gutter: stable both-edges;
+}
+
+aside {
+	float: right;
+}
+
+body {
+	background: #126623;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	font-family: -apple-system, BlinkMacSystemFont,
+	"Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+	"Fira Sans", "Droid Sans", "Helvetica Neue",
+	sans-serif;
+	font-feature-settings: "kern" 1;
+	font-kerning: normal;
+}
+
+button {
+	box-shadow: rgb(202, 239, 171) 0px 1px 0px 0px inset;
+	border-radius: 3px;
+	border: 1px solid rgb(38, 138, 22);
+	cursor: pointer;
+	font-weight: bold;
+	max-height: 3em;
+	padding: 6px;
+	background: linear-gradient(rgb(92, 184, 17) 5%, rgb(119, 212, 42) 100%) rgb(92, 184, 17);
+}
+
+button:disabled, button[disabled] {
+	cursor: auto;
+}
+
+main {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td {
+	background: #47b75e;
+	border: 1px solid #d4fcdb;
+	min-width: 27px;
+	height: 27px;
+	text-align: center;
+}
+
+#board {
+	border-collapse: collapse;
+	font-weight: bold;
+	max-width: 405px;
+}
+
+#rack {
+	display:inline-block;
+}
+
+#letters_left {
+	max-width: 405px;
+}
+
+.tw {
+	background:#E60000;
+}
+.dw {
+	background:#F86969;
+}
+.tl {
+	background:#3675FA;
+}
+.dl {
+	background:#22ACD8;
+}
+.start {
+	background:#ff5500;
+}
+
+.selected {
+	background:orange;
+}
+
+.points {
+	display: inline;
+	font-weight: normal;
+	font-size: 8pt;
+}
