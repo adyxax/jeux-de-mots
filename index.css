@@ -77,6 +77,12 @@ td {
 	background:#ff5500;
 }
 
+.letter {
+	background:#f3e797;
+}
+.placed {
+	color:red;
+}
 .selected {
 	background:orange;
 }
