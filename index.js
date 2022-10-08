@@ -42,30 +42,15 @@ var CW = function(){
 	};
 	var cursor = undefined;
 	var placed = [];
-	var selected = undefined;
 
 	function makeBoardTileOnCLick(x, y) {
 		return function() {
 			var me = document.getElementById(["s", y, "_", x].join(""));
 			var dst = undefined;
-			var oth = undefined;
 			var l = me.innerHTML;
 			var n;
-			var i;
 			if (l === "") {
-				if (selected === undefined) {
-					moveCursor(x, y);
-				} else {
-					// place the selected letter
-					me.classList.add("letter");
-					me.classList.add("placed");
-					me.innerHTML = selected.letter;
-					dst = document.getElementById(["l", selected.index].join(""));
-					dst.classList.replace("selected", "letter");
-					dst.classList.add("placed");
-					placed.push({x:x, y:y, index:selected.index, letter: selected.letter});
-					selected = undefined;
-				}
+				moveCursor(x, y);
 			} else if (me.classList.contains("placed")) {
 				for(n=placed.length-1; n>=0; n--) {
 					if (placed[n].x === x && placed[n].y === y) {
@@ -75,24 +60,11 @@ var CW = function(){
 				// return the placed letter to the rack
 				dst = document.getElementById(["l", placed[n].index].join(""));
 				dst.classList.remove("placed");
-				if (selected === undefined) {
-					// simply remove from the board
-					me.innerHTML = "";
-					me.classList.remove("placed");
-					me.classList.remove("letter");
-					placed.splice(n, 1);
-				} else {
-					// place the selected letter in its place on the board
-					me.innerHTML = selected.letter;
-					oth = document.getElementById(["l", selected.index].join(""));
-					oth.classList.replace("selected", "letter");
-					oth.classList.add("placed");
-					i = placed[n].index;
-					placed.splice(n, 1, { x: x, y: y, index: selected.index, letter: selected.letter });
-					// select the letter that was returned to the rack
-					selected = { index: i, letter: dst.innerHTML };
-					dst.classList.replace("letter", "selected");
-				}
+				// simply remove from the board
+				me.innerHTML = "";
+				me.classList.remove("placed");
+				me.classList.remove("letter");
+				placed.splice(n, 1);
 			} else if (cursor !== undefined && cursor.x == x && cursor.y == y) {
 				if (cursor.direction === "right") {
 					cursor.direction = "down";
@@ -110,71 +82,51 @@ var CW = function(){
 			var n = 0;
 			var me = document.getElementById(["l", i].join(""));
 			var dst = undefined;
-			var cur = undefined;
-			var l = me.innerHTML;
 			if (me.classList.contains("placed")) {
-				if (selected === undefined) {
-					// we return the letter to the rack
-					for(n=placed.length-1; n>=0; n--) {
-						if (placed[n].index === i) {
+				// we return the letter to the rack
+				for(n=placed.length-1; n>=0; n--) {
+					if (placed[n].index === i) {
+						break;
+					}
+				}
+				dst = document.getElementById(["s", placed[n].y, "_", placed[n].x].join(""));
+				dst.innerHTML = "";
+				dst.classList.remove("letter");
+				dst.classList.remove("placed");
+				me.classList.remove("placed");
+				moveCursor(placed[n].x, placed[n].y);
+				// clean the placed array
+				placed.splice(n, 1);
+			} else {
+				if (cursor !== undefined) {
+					// Place the letter on the cursor's position
+					dst = document.getElementById(["s", cursor.y, "_", cursor.x].join(""));
+					dst.innerHTML = me.innerHTML;
+					dst.classList.add("letter");
+					dst.classList.add("placed");
+					me.classList.add("placed");
+					placed.push({x: cursor.x, y: cursor.y, index:i, letter: me.innerHTML});
+					// Move the cursor if possible
+					while(cursor.x < 15 && cursor.y < 15) {
+						if (cursor.direction === "right") {
+							cursor.x++;
+						} else {
+							cursor.y++;
+						}
+						dst = document.getElementById(["s", cursor.y, "_", cursor.x].join(""));
+						if (dst === null || dst.innerHTML === "") {
 							break;
 						}
 					}
-					dst = document.getElementById(["s", placed[n].y, "_", placed[n].x].join(""));
-					dst.innerHTML = "";
-					dst.classList.remove("letter");
-					dst.classList.remove("placed");
-					me.classList.remove("placed");
-					moveCursor(placed[n].x, placed[n].y)
-					// clean the placed array
-					placed.splice(n, 1);
-				} else {
-					// We do nothing, we do move the rack position of a placed letter
-				}
-			} else {
-				if (selected === undefined) {
-					if (cursor === undefined) {
-						selected = { index: i, letter: l };
-						me.classList.replace("letter", "selected");
+					if (cursor.x >= 15 || cursor.y >= 15) {
+						cursor = undefined;
 					} else {
-						// Place the letter on the cursor's position
-						dst = document.getElementById(["s", cursor.y, "_", cursor.x].join(""));
-						dst.innerHTML = me.innerHTML;
-						dst.classList.add("letter");
-						dst.classList.add("placed");
-						me.classList.add("placed");
-						placed.push({x: cursor.x, y: cursor.y, index:i, letter: me.innerHTML});
-						// Move the cursor if possible
-						while(cursor.x < 15 && cursor.y < 15) {
-							if (cursor.direction === "right") {
-								cursor.x++;
-							} else {
-								cursor.y++;
-							}
-							dst = document.getElementById(["s", cursor.y, "_", cursor.x].join(""));
-							if (dst === null || dst.innerHTML === "") {
-								break;
-							}
-						}
-						if (cursor.x >= 15 || cursor.y >= 15) {
-							cursor = undefined;
+						if (cursor.direction === "right") {
+							dst.innerHTML = "▶";
 						} else {
-							if (cursor.direction === "right") {
-								dst.innerHTML = "▶";
-							} else {
-								dst.innerHTML = "▼";
-							}
+							dst.innerHTML = "▼";
 						}
 					}
-				} else if (selected.index === i) {
-					selected = undefined;
-					me.classList.replace("selected", "letter");
-				} else {
-					dst = document.getElementById(["l", selected.index].join(""));
-					dst.innerHTML = l;
-					me.innerHTML = selected.letter;
-					dst.classList.replace("selected", "letter");
-					selected = undefined;
 				}
 			}
 		};
