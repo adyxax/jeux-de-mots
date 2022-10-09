@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var CW = function(){
 	//   0 point : blanches × 2.
@@ -30,7 +30,7 @@ var CW = function(){
 		"H", "H",
 		"V", "V",
 		"J", "Q", "K", "W", "X", "Y", "Z"
-	]
+	];
 	const points = {
 		" ": 0,
 		E:1, A:1, I:1, N:1, O:1, R:1, S:1, T:1, U:1, L:1,
@@ -166,10 +166,10 @@ var CW = function(){
 				const line = CWDATA.board[y];
 				for(x=0; x<line.length; x++) {
 					letter = line[x];
-					elt = document.getElementById(['s', y, '_', x].join(''));
+					elt = document.getElementById(["s", y, "_", x].join(""));
 					if (letter !== "") {
 						elt.className = "letter";
-						elt.innerHTML = [letter, '<div class="points">', points[letter], "</div>"].join("");
+						elt.innerHTML = [letter, "<div class=\"points\">", points[letter], "</div>"].join("");
 						// we also remove the letter from the pool
 						idx = letters.findIndex(function(elt) { return elt === letter; });
 						if (idx != -1) {
@@ -210,9 +210,9 @@ var CW = function(){
 						prev = "JOKER";
 					}
 					if (y > 1) {
-						letters_left = letters_left.concat(prev, 'x', y, ', ');
+						letters_left = letters_left.concat(prev, "x", y, ", ");
 					} else {
-						letters_left = letters_left.concat(prev, ', ');
+						letters_left = letters_left.concat(prev, ", ");
 					}
 					prev = letter;
 					y = 1;
@@ -223,12 +223,12 @@ var CW = function(){
 					prev = "blanc";
 				}
 				if (y > 1) {
-					letters_left = letters_left.concat(prev, 'x', y, '.');
+					letters_left = letters_left.concat(prev, "x", y, ".");
 				} else {
-					letters_left = letters_left.concat(prev, '.');
+					letters_left = letters_left.concat(prev, ".");
 				}
 			}
-			document.getElementById('letters_left').innerHTML = letters_left.join('');
+			document.getElementById("letters_left").innerHTML = letters_left.join("");
 		}
 	};
 }();
