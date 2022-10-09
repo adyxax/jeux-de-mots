@@ -55,6 +55,7 @@ td {
 
 #rack {
 	display:inline-block;
+	font-weight: bold;
 }
 
 #letters_left {
@@ -82,9 +83,6 @@ td {
 }
 .placed {
 	color:red;
-}
-.selected {
-	background:orange;
 }
 
 .points {
