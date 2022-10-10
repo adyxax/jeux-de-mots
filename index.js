@@ -1,6 +1,7 @@
 "use strict";
 
 let CW = function(){
+	//   102 letter tiles
 	//   0 point : blanches × 2.
 	//   1 point : E ×15, A ×9, I ×8, N ×6, O ×6, R ×6, S ×6, T ×6, U ×6, L ×5
 	//   2 points : D ×3, G ×2, M ×3
@@ -8,37 +9,15 @@ let CW = function(){
 	//   4 points : F ×2, H ×2, V ×2
 	//   8 points : J ×1, Q ×1
 	//   10 points : K ×1, W ×1, X ×1, Y ×1, Z ×1
-	let letters = [
-		" ", " ",
-		"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E",
-		"A", "A", "A", "A", "A", "A", "A", "A", "A",
-		"I", "I", "I", "I", "I", "I", "I", "I",
-		"N", "N", "N", "N", "N", "N",
-		"O", "O", "O", "O", "O", "O",
-		"R", "R", "R", "R", "R", "R",
-		"S", "S", "S", "S", "S", "S",
-		"T", "T", "T", "T", "T", "T",
-		"U", "U", "U", "U", "U", "U",
-		"L", "L", "L", "L", "L",
-		"D", "D", "D",
-		"M", "M", "M",
-		"G", "G",
-		"B", "B",
-		"C", "C",
-		"P", "P",
-		"F", "F",
-		"H", "H",
-		"V", "V",
-		"J", "Q", "K", "W", "X", "Y", "Z"
-	];
-	const points = {
-		" ": 0,
-		E:1, A:1, I:1, N:1, O:1, R:1, S:1, T:1, U:1, L:1,
-		D:2, G:2, M:2,
-		B:3, C:3, P:3,
-		F:4, H:4, V:4,
-		J:8, Q:8,
-		K:10, W:10, X:10, Y:10, Z:10
+	let total_remaining_letters = 102;
+	let letters = {
+		JOKER:{count:2, points:0 },
+		E:{count:15, points:1}, A:{count:9, points:1}, I:{count:9, points:1}, N:{count:6, points:1}, O:{count:6, points:1}, R:{count:6, points:1}, S:{count:6, points:1}, T:{count:6, points:1}, U:{count:6, points:1}, L:{count:5, points:1},
+		D:{count:3, points:2}, G:{count:2, points:2}, M:{count:3, points:2},
+		B:{count:2, points:3}, C:{count:2, points:3}, P:{count:2, points:3},
+		F:{count:2, points:4}, H:{count:2, points:4}, V:{count:2, points:4},
+		J:{count:1, points:8}, Q:{count:1, points:8},
+		K:{count:1, points:10}, W:{count:1, points:10}, X:{count:1, points:10}, Y:{count:1, points:10}, Z:{count:1, points:10},
 	};
 	let cursor = undefined;
 	let placed = [];
@@ -168,10 +147,8 @@ let CW = function(){
 						elt.className = "letter";
 						elt.innerHTML = [letter, "<div class=\"points\">", points[letter], "</div>"].join("");
 						// we also remove the letter from the pool
-						let idx = letters.findIndex(function(elt) { return elt === letter; });
-						if (idx != -1) {
-							letters.splice(idx, 1);
-						}
+						letters[letter].count--;
+						total_remaining_letters--;
 					}
 					elt.onclick = makeBoardTileOnCLick(x, y);
 				}
@@ -184,50 +161,27 @@ let CW = function(){
 					elt.className = "letter";
 					elt.innerHTML = [letter, "<div class=\"points\">", points[letter], "</div>"].join("");
 					// we remove the letter from the pool
-					let idx = letters.findIndex(function(elt) { return elt === letter; });
-					if (idx != -1) {
-						letters.splice(idx, 1);
-					}
+					letters[letter].count--;
+					total_remaining_letters--;
 				}
 				elt.onclick = makeRackTileOnClick(x);
 			}
 			// initialize buttons
 			document.getElementById("validate").disabled = true;
 			// populate remaining letters
-			let letters_left = [ "Lettres restantes: ", letters.length, "<br>" ];
-			let prev = undefined;
-			let y = 1;
-			for (let x=0; x<letters.length; x++) {
-				let letter = letters[x];
-				if (prev === undefined) {
-					prev = letter;
-				}
-				if (prev === letter) {
-					y++;
-				} else {
-					if (prev === " ") {
-						prev = "JOKER";
-					}
-					if (y > 1) {
-						letters_left = letters_left.concat(prev, "x", y, ", ");
+			let remaining_letters = [ "Lettres restantes: ", total_remaining_letters, "<br>" ];
+			let first = true;
+			for (const [key, value] of Object.entries(letters)) {
+				if (value.count > 0) {
+					if (first) {
+						remaining_letters = remaining_letters.concat(key, "x", value.count);
+						first = false;
 					} else {
-						letters_left = letters_left.concat(prev, ", ");
+						remaining_letters = remaining_letters.concat(", ", key, "x", value.count);
 					}
-					prev = letter;
-					y = 1;
 				}
 			}
-			if (prev !== undefined) {
-				if (prev === " ") {
-					prev = "blanc";
-				}
-				if (y > 1) {
-					letters_left = letters_left.concat(prev, "x", y, ".");
-				} else {
-					letters_left = letters_left.concat(prev, ".");
-				}
-			}
-			document.getElementById("letters_left").innerHTML = letters_left.join("");
+			document.getElementById("remaining_letters").innerHTML = remaining_letters.join("");
 		}
 	};
 }();
