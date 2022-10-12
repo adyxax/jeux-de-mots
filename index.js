@@ -35,8 +35,8 @@ let CW = function(){
 					cursor.direction = "down";
 					me.innerHTML = "▼";
 				} else {
-					cursor = undefined;
-					me.innerHTML = "";
+					cursor.direction = "right";
+					me.innerHTML = "▶";
 				}
 			}
 		};
