@@ -145,7 +145,7 @@ let CW = function(){
 					let elt = document.getElementById(["s", y, "_", x].join(""));
 					if (letter !== "") {
 						elt.className = "letter";
-						elt.innerHTML = [letter, "<div class=\"points\">", points[letter], "</div>"].join("");
+						elt.innerHTML = [letter, "<div class=\"points\">", letters[letter].points, "</div>"].join("");
 						// we also remove the letter from the pool
 						letters[letter].count--;
 						total_remaining_letters--;
@@ -159,7 +159,7 @@ let CW = function(){
 				let elt = document.getElementById(["l", x].join(""));
 				if (letter !== undefined) {
 					elt.className = "letter";
-					elt.innerHTML = [letter, "<div class=\"points\">", points[letter], "</div>"].join("");
+					elt.innerHTML = [letter, "<div class=\"points\">", letters[letter].points, "</div>"].join("");
 					// we remove the letter from the pool
 					letters[letter].count--;
 					total_remaining_letters--;
