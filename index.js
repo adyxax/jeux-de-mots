@@ -97,6 +97,7 @@ let CW = function(){
 	}
 
 	function moveFromBoardToRack(x, y, src) {
+		CWDATA.board[y][x] = "";
 		// Find the letter in the placed array
 		let n = undefined;
 		for(n=placed.length-1; n>=0; n--) {
@@ -114,7 +115,11 @@ let CW = function(){
 			i++;
 		} while (i<7);
 		// Move the board letter to the rack
-		dst.innerHTML = src.innerHTML;
+		if (src.innerHTML.charAt(21) === "&") {
+			dst.innerHTML = "&nbsp;";
+		} else {
+			dst.innerHTML = src.innerHTML;
+		}
 		dst.classList.add("letter");
 		src.classList.remove("letter");
 		src.classList.remove("placed");
@@ -126,12 +131,23 @@ let CW = function(){
 
 	function moveFromRackToBoard(src, x, y) {
 		let dst = document.getElementById(["s", y, "_", x].join(""));
-		dst.innerHTML = src.innerHTML;
+		if (src.innerHTML === "&nbsp;") {
+			let letter = prompt("Entrez la lettre à utiliser", "A");
+			if (letter === null || !/^[A-Za-z]$/.test(letter)) {
+				return;
+			}
+			letter = letter.toUpperCase();
+			dst.innerHTML = [letter, "<div class=\"points\">&nbsp;</div>"].join("");
+			CWDATA.board[y][x] = {joker: letter};
+		} else {
+			dst.innerHTML = src.innerHTML;
+			CWDATA.board[y][x] = dst.innerHTML.charAt(0);
+		}
 		dst.classList.add("letter");
 		dst.classList.add("placed");
 		src.classList.remove("letter");
 		src.innerHTML = "";
-		placed.push({x: cursor.x, y: cursor.y, letter: src.innerHTML});
+		placed.push({x: cursor.x, y: cursor.y, letter: dst.innerHTML});
 		moveCursorForwardIfPossible();
 	}
 
@@ -145,7 +161,12 @@ let CW = function(){
 					let elt = document.getElementById(["s", y, "_", x].join(""));
 					if (letter !== "") {
 						elt.className = "letter";
-						elt.innerHTML = [letter, "<div class=\"points\">", letters[letter].points, "</div>"].join("");
+						if (typeof letter === "object") {
+							elt.innerHTML = [letter.joker, "<div class=\"points\">&nbsp;</div>"].join("");
+							letter = "JOKER";
+						} else {
+							elt.innerHTML = [letter, "<div class=\"points\">", letters[letter].points, "</div>"].join("");
+						}
 						// we also remove the letter from the pool
 						letters[letter].count--;
 						total_remaining_letters--;
@@ -154,15 +175,19 @@ let CW = function(){
 				}
 			}
 			// populate the rack
-			for (let x=0; x<8; x++) {
+			for (let x=0; x<7; x++) {
 				let letter = CWDATA.letters[x];
 				let elt = document.getElementById(["l", x].join(""));
 				if (letter !== undefined) {
 					elt.className = "letter";
-					elt.innerHTML = [letter, "<div class=\"points\">", letters[letter].points, "</div>"].join("");
 					// we remove the letter from the pool
 					letters[letter].count--;
 					total_remaining_letters--;
+					if (letter === "JOKER") {
+						elt.innerHTML = "&nbsp;";
+					} else {
+						elt.innerHTML = [letter, "<div class=\"points\">", letters[letter].points, "</div>"].join("");
+					}
 				}
 				elt.onclick = makeRackTileOnClick(x);
 			}
