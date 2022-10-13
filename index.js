@@ -20,7 +20,7 @@ let CW = function(){
 		K:{count:1, points:10}, W:{count:1, points:10}, X:{count:1, points:10}, Y:{count:1, points:10}, Z:{count:1, points:10},
 	};
 	let cursor = undefined;
-	let placed = [];
+	let placed = []; // a sorted array of letters to place
 
 	function makeBoardTileOnCLick(x, y) {
 		return function() {
@@ -147,7 +147,14 @@ let CW = function(){
 		dst.classList.add("placed");
 		src.classList.remove("letter");
 		src.innerHTML = "";
+		// insert in the placed sorted array
 		placed.push({x: cursor.x, y: cursor.y, letter: dst.innerHTML});
+		for (let i=placed.length-1;i>0 && placed[i].y <= placed[i-1].y && placed[i].x <= placed[i-1].x;i--) {
+			let tmp = placed[i];
+			placed[i] = placed[i-1];
+			placed[i-1] = tmp;
+		}
+		// advance the cursor
 		moveCursorForwardIfPossible();
 	}
 
@@ -207,7 +214,7 @@ let CW = function(){
 				}
 			}
 			document.getElementById("remaining_letters").innerHTML = remaining_letters.join("");
-		}
+		},
 	};
 }();
 
