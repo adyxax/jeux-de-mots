@@ -31,7 +31,7 @@
 					<tr><td id="l0"><td id="l1"><td id="l2"><td id="l3"><td id="l4"><td id="l5"><td id="l6"></tr>
 				</table>
 				<aside>
-					<button title="validate your move" onclick="onvalidatemoveclick()" id="validate">Validate</button>
+					<button title="validate your move" onclick="onvalidatemoveclick()" id="validate" disabled>Validate</button>
 					<button onclick="onSelectSwapTilesClicked()" id="pass">Pass</button>
 				</aside>
 			</p>
@@ -45,7 +45,6 @@
 	<script>
 		var CWDATA = {
 			board: [
-				[ "T", "E", {joker:"S"}, "T", "","", "", "", "", "","", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
@@ -53,6 +52,7 @@
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
+				[ "", "", "", "", "","", "", "T", "E", "S","T", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],
 				[ "", "", "", "", "","", "", "", "", "","", "", "", "", "" ],

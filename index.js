@@ -127,6 +127,8 @@ let CW = function(){
 		moveCursor(x, y);
 		// Remove the letter from the placed array
 		placed.splice(n, 1);
+		// update the validate button
+		document.getElementById("validate").disabled = !isValidPlay();
 	}
 
 	function moveFromRackToBoard(src, x, y) {
@@ -156,6 +158,81 @@ let CW = function(){
 		}
 		// advance the cursor
 		moveCursorForwardIfPossible();
+		// update the validate button
+		document.getElementById("validate").disabled = !isValidPlay();
+	}
+
+	function isValidPlay() {
+		// special case of no letters placed
+		if (placed.length === 0) {
+			return false;
+		}
+		// common definitions
+		let connected = false;
+		let x = placed[0].x;
+		let y = placed[0].y;
+		const lastx = placed[placed.length-1].x;
+		const lasty = placed[placed.length-1].y;
+		if (y>0) { // we check if we are connected above the first letter
+			connected ||= CWDATA.board[y-1][x] != "";
+		}
+		if (x>0) { // we check if we are connected on the left of the first letter
+			connected ||= CWDATA.board[y][x-1] != "";
+		}
+		// check if the placed letters are aligned and complete connection checks on the first and last letters
+		let direction = undefined;
+		if (x === lastx) {
+			direction = "down";
+			if (x<14) { // we are going down so we check for a connection on the right of the first letter
+				connected ||= CWDATA.board[y][x+1] != "";
+			}
+			if (lasty<14) { // we check bellow the last letter
+				connected ||= CWDATA.board[lasty+1][x] != "";
+			}
+		}
+		if (y === lasty) {
+			direction = "right";
+			if (lastx<14) { // we are going right so we check for a connection bellow the first letter
+				connected ||= CWDATA.board[y+1][x] != "";
+			}
+			if (lastx<14) { // we check on the right of the last letter
+				connected ||= CWDATA.board[y][lastx+1] != "";
+			}
+		}
+		// Now we check around the placed letters
+		let i=1;
+		while(i<placed.length && !(x === lastx && y === lasty)) {
+			if (direction === "down") {
+				y++;
+			} else {
+				x++;
+			}
+			if (placed[i].x === x && placed[i].y === y) {
+				// check around this letter
+				if (direction === "down") {
+					if (x > 0) { // we check for connection on the left
+						connected ||= CWDATA.board[y][x-1] != "";
+					}
+					if (x < 14) { // we check for connection on the right
+						connected ||= CWDATA.board[y][x+1] != "";
+					}
+				} else {
+					if (y>0) { // we check for connection on top
+						connected ||= CWDATA.board[y-1][x] != "";
+					}
+					if (y < 14) { // we check for connection bellow
+						connected ||= CWDATA.board[y+1][x] != "";
+					}
+				}
+				i++;
+			} else {
+				if (CWDATA.board[y][x] === "") {
+					break;
+				}
+				connected = true;
+			}
+		}
+		return connected && i === placed.length;
 	}
 
 	return {
@@ -198,8 +275,6 @@ let CW = function(){
 				}
 				elt.onclick = makeRackTileOnClick(x);
 			}
-			// initialize buttons
-			document.getElementById("validate").disabled = true;
 			// populate remaining letters
 			let remaining_letters = [ "Lettres restantes: ", total_remaining_letters, "<br>" ];
 			let first = true;
