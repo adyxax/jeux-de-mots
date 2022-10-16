@@ -128,7 +128,7 @@ let CW = function(){
 		// Remove the letter from the placed array
 		placed.splice(n, 1);
 		// update the validate button
-		document.getElementById("validate").disabled = !isValidPlay();
+		updateUI();
 	}
 
 	function moveFromRackToBoard(src, x, y) {
@@ -158,8 +158,8 @@ let CW = function(){
 		}
 		// advance the cursor
 		moveCursorForwardIfPossible();
-		// update the validate button
-		document.getElementById("validate").disabled = !isValidPlay();
+		// update the validate button and pending points
+		updateUI();
 	}
 
 	function isValidPlay() {
@@ -233,6 +233,126 @@ let CW = function(){
 			}
 		}
 		return connected && i === placed.length;
+	}
+
+	function getNewWordsAndScores() {
+		function getLetterScore(letter, elt, modifiers) {
+			let multiplier = 1;
+			if (elt.classList.contains("placed")) {
+				if (elt.classList.contains("tl")) {
+					multiplier = 3;
+				} else if (elt.classList.contains("dl")) {
+					multiplier = 2;
+				}
+				if (elt.classList.contains("tw")) {
+					modifiers.push("tw");
+				} else if (elt.classList.contains("dw")) {
+					modifiers.push("dw");
+				}
+			}
+			if (typeof letter === "object") {
+				return 0;
+			}
+			return multiplier * letters[letter].points;
+		}
+		function getHorizontalWordFrom(x, y) {
+			let word = "";
+			let points = 0;
+			let modifiers = [];
+			// Go to the left
+			for(let i=x;i>=0 && CWDATA.board[y][i] != "";i--) {
+				let letter = CWDATA.board[y][i];
+				let elt = document.getElementById(["s", y, "_", i].join(""));
+				let p = getLetterScore(letter, elt, modifiers);
+				if (typeof letter === "object") {
+					word = letter.joker + word;
+				} else {
+					word = letter + word;
+					points += p;
+				}
+			}
+			// Go to the right
+			for(let i=x+1;i<15 && CWDATA.board[y][i] != "";i++) {
+				let letter = CWDATA.board[y][i];
+				let elt = document.getElementById(["s", y, "_", i].join(""));
+				let p = getLetterScore(letter, elt, modifiers);
+				if (typeof letter === "object") {
+					word = word + letter.joker;
+				} else {
+					word = word + letter;
+					points += p;
+				}
+			}
+			// score modifiers
+			modifiers.forEach(function(m) { if (m === "dw") { points *= 2; } else { points *= 3; } });
+			return { word: word, points: points };
+		}
+		function getVerticalWordFrom(x, y) {
+			let word = "";
+			let points = 0;
+			let modifiers = [];
+			// Go to the top
+			for(let i=y;i>=0 && CWDATA.board[i][x] != "";i--) {
+				let letter = CWDATA.board[i][x];
+				let elt = document.getElementById(["s", i, "_", x].join(""));
+				let p = getLetterScore(letter, elt, modifiers);
+				if (typeof letter === "object") {
+					word = letter.joker + word;
+				} else {
+					word = letter + word;
+					points += p;
+				}
+			}
+			// Go to the bottom
+			for(let i=y+1;i<15 && CWDATA.board[i][x] != "";i++) {
+				let letter = CWDATA.board[i][x];
+				let elt = document.getElementById(["s", i, "_", x].join(""));
+				let p = getLetterScore(letter, elt, modifiers);
+				if (typeof letter === "object") {
+					word = word + letter.joker;
+				} else {
+					word = word + letter;
+					points += p;
+				}
+			}
+			// score modifiers
+			modifiers.forEach(function(m) { if (m === "dw") { points *= 2; } else { points *= 3; } });
+			return { word: word, points: points };
+		}
+		let words = [];
+		words.push(getHorizontalWordFrom(placed[0].x, placed[0].y));
+		words.push(getVerticalWordFrom(placed[0].x, placed[0].y));
+		for (let i=1; i<placed.length;i++) {
+			if (placed[i].x === placed[0].x) { // going down
+				words.push(getHorizontalWordFrom(placed[i].x, placed[i].y));
+			} else { // going right
+				words.push(getVerticalWordFrom(placed[i].x, placed[i].y));
+			}
+		}
+		// we strip one letter words
+		for(let i=words.length-1;i>=0;i--) {
+			if (words[i].word.length < 2) {
+				words.splice(i, 1);
+			}
+		}
+		return words;
+	}
+
+	function updateUI() {
+		let validate = document.getElementById("validate");
+		if (isValidPlay()) {
+			let words = getNewWordsAndScores();
+			console.log(words);
+			let total = 0;
+			words.forEach(function(word) {
+				total += word.points;
+			});
+			validate.innerHTML = [total, " - Validate"].join("");
+			validate.disabled = false;
+		} else {
+			validate.innerHTML = "0 - Validate";
+			validate.disabled = true;
+		}
 	}
 
 	return {
