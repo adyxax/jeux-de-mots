@@ -1,4 +1,4 @@
-module.exports = {
+{
 	"env": {
 		"browser": true,
 		"es2021": true
@@ -8,9 +8,9 @@ module.exports = {
 		{
 			"files": ["**/*.js"],
 			"globals": {
-				"CWDATA": "writable",
-			},
-		},
+				"CWDATA": "writable"
+			}
+		}
 	],
 	"parserOptions": {
 		"ecmaVersion": "latest"
@@ -33,4 +33,4 @@ module.exports = {
 			"always"
 		]
 	}
-};
+}

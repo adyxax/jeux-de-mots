@@ -1,0 +1,17 @@
+{
+  "name": "jeux-de-mots",
+  "version": "0.0.1",
+  "description": "a scrabble like web game",
+  "author": "Julien <Adyxax> Dessaux",
+  "license": "EUPL 1.2",
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-plugin-node": "^11.1.0",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2"
+  }
+}
