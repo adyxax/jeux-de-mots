@@ -16,7 +16,7 @@ serve: ## make serve  # run a self reloading nodejs web server
 
 .PHONY: run
 run: ## make run  # run a production nodejs web server
-	node main.js
+	NODE_ENV=production node main.js
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
