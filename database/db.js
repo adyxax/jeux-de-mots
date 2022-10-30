@@ -11,7 +11,7 @@ db.pragma("foreign_keys = ON");
 db.transaction(function migrate() {
 	let version;
 	try {
-		version = db.prepare("SELECT version FROM schema_version").all()[0].version;
+		version = db.prepare("SELECT version FROM schema_version").get().version;
 	} catch {
 		version = 0;
 	}
