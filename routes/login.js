@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
 	if (req.session.user !== undefined) {
 		return res.redirect(302, "/play");
 	}
-	return res.render("login", makeLoginController());
+	return res.render("login", makeLoginController(req));
 });
 
 const checkUsername = check("username")
@@ -28,7 +28,7 @@ router.post("/", [bodyParser, checkUsername, checkPassword], async (req, res) =>
 	if (req.session.user !== undefined) {
 		return res.redirect(302, "/play");
 	}
-	let controller = makeLoginController();
+	let controller = makeLoginController(req);
 	controller.data = req.body;
 	controller.errors = validationResult(req).mapped();
 	if (Object.keys(controller.errors).length === 0) {

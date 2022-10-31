@@ -2,6 +2,7 @@ import express from "express";
 
 import helmet from "./middlewares/helmet.js";
 import loginRouter from "./routes/login.js";
+import logoutRouter from "./routes/logout.js";
 import playRouter from "./routes/play.js";
 import rootRouter from "./routes/root.js";
 
@@ -12,6 +13,7 @@ app.set("views", "./views");
 app.set("view engine", "ejs");
 
 app.use("/login", loginRouter);
+app.use("/logout", logoutRouter);
 app.use("/play", playRouter);
 app.use("/static", express.static("static"));
 app.use("/", rootRouter);

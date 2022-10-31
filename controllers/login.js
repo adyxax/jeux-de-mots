@@ -1,6 +1,7 @@
-function makeLoginController() {
+function makeController(req) {
 	return {
-		title: "Connection",
+		title: "Connexion",
+		user: req.session.user,
 		data: {
 			username: "",
 			password: "",
@@ -9,4 +10,4 @@ function makeLoginController() {
 	};
 }
 
-export default makeLoginController;
+export default makeController;

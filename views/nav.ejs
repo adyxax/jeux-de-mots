@@ -2,6 +2,9 @@
 	<nav>
 		<ul>
 			<li class="nav-menu-title">Jeu de mots</li>
+			<% if (user !== undefined) { %>
+			<li class=".nav-menu-margin-left"><a href="/logout">Déconnexion</a></li>
+			<% } %>
 		</ul>
 	</nav>
 </header>
