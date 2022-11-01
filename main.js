@@ -7,6 +7,7 @@ import playRouter from "./routes/play.js";
 import rootRouter from "./routes/root.js";
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(helmet);
 
 app.set("views", "./views");
