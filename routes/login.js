@@ -1,7 +1,7 @@
 import express from "express";
-import { check, validationResult, matchedData } from "express-validator";
+import { check, validationResult } from "express-validator";
 
-import makeLoginController from "../controllers/login.js"
+import makeLoginController from "../controllers/login.js";
 import bodyParser from "../middlewares/formParser.js";
 import session from "../middlewares/sessions.js";
 import { login } from "../database/users.js";
