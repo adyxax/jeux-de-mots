@@ -3,6 +3,7 @@ import Database from "better-sqlite3";
 
 const allMigrations = [
 	"database/000_init.sql",
+	"database/001_games.sql",
 ];
 
 const db = new Database("jdm.db");

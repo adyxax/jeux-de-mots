@@ -8,7 +8,7 @@ aside {
 }
 
 body {
-	background: #126623;
+	background: #358a46;
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	font-family: -apple-system, BlinkMacSystemFont,
@@ -50,11 +50,12 @@ header nav ul li {
 	text-decoration: none;
 }
 header nav ul li a {
-	color: #b58900;
+	color: black;
 	display: block;
 	text-decoration: none;
 }
 header nav ul li.nav-menu-title {
+	background: #126623;
 	float: left;
 	text-transform: uppercase;
 	font-weight: 700;
@@ -68,11 +69,45 @@ form input {
 }
 
 main {
-	margin-left: auto;
-	margin-right: auto;
+	background: #126623;
+	padding-left: 1em;
+	padding-right: 1em;
 }
 
-td {
+#games {
+	border-collapse: collapse;
+}
+#games tr:nth-child(even){background-color: #f2f2f2;}
+#games tr:hover {background-color: #ddd;}
+#games td, #games th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#games th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+#remaining_letters {
+	max-width: 405px;
+}
+
+#rack-area {
+	max-width: 405px;
+}
+#rack {
+	display:inline-block;
+	font-weight: bold;
+}
+#board {
+	border-collapse: collapse;
+	font-weight: bold;
+	max-width: 405px;
+}
+#board tr td, #rack tr td {
 	background: #47b75e;
 	border: 1px solid #d4fcdb;
 	min-width: 27px;
@@ -80,38 +115,23 @@ td {
 	text-align: center;
 }
 
-#board {
-	border-collapse: collapse;
-	font-weight: bold;
-	max-width: 405px;
-}
-
-#rack {
-	display:inline-block;
-	font-weight: bold;
-}
-
-#remaining_letters {
-	max-width: 405px;
-}
-
-.tw {
+#board tr td.tw {
 	background:#E60000;
 }
-.dw {
+#board tr td.dw {
 	background:#F86969;
 }
-.tl {
+#board tr td.tl {
 	background:#3675FA;
 }
-.dl {
+#board tr td.dl {
 	background:#22ACD8;
 }
-.start {
+#board tr td.start {
 	background:#ff5500;
 }
 
-.letter {
+#board tr td.letter, #rack tr td.letter {
 	background:#f3e797;
 }
 .placed {

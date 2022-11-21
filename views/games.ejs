@@ -1,0 +1,17 @@
+<%- include("header") %>
+<% if (Object.keys(games).length === 0) { %>
+<h2>Aucune partie en cours</h2>
+<% } else { %>
+<h2>Liste des parties en cours</h2>
+<table id="games">
+	<tr><th>Partie</th><th>Joueur 1</th><th>Joueur 2</th></tr>
+	<% games.forEach((game) => { %>
+	<tr>
+		<td><a href="/games/<%= game.id %>"><%= game.data.title %></a></td>
+		<td><a href="/users/<%= game.player1 %>"><%= game.data.player1.name %></a></td>
+		<td><a href="/users/<%= game.player2 %>"><%= game.data.player2.name %></a></td>
+	</tr>
+	<% }) %>
+</table>
+<% } %>
+<%- include("footer") %>

@@ -17,20 +17,20 @@
 	<tr><td id="s13_0"><td id="s13_1" class="dw" title="double word"><td id="s13_2"><td id="s13_3"><td id="s13_4"><td id="s13_5" class="tl" title="triple letter"><td id="s13_6"><td id="s13_7"><td id="s13_8"><td id="s13_9" class="tl" title="triple letter"><td id="s13_10"><td id="s13_11"><td id="s13_12"><td id="s13_13" class="dw" title="double word"><td id="s13_14"></tr>
 	<tr><td id="s14_0" class="tw" title="triple word"><td id="s14_1"><td id="s14_2"><td id="s14_3" class="dl" title="double letter"><td id="s14_4"><td id="s14_5"><td id="s14_6"><td id="s14_7" class="tw" title="triple word"><td id="s14_8"><td id="s14_9"><td id="s14_10"><td id="s14_11" class="dl" title="double letter"><td id="s14_12"><td id="s14_13"><td id="s14_14" class="tw" title="triple word"></tr>
 </table>
-<p>
-<table id="rack">
-	<tr><td id="l0"><td id="l1"><td id="l2"><td id="l3"><td id="l4"><td id="l5"><td id="l6"></tr>
-</table>
-<aside>
-	<button title="validate your move" onclick="onvalidatemoveclick()" id="validate" disabled>0 - Validate</button>
-	<button onclick="onSelectSwapTilesClicked()" id="pass">Pass</button>
-</aside>
+<p id="rack-area">
+	<table id="rack">
+		<tr><td id="l0"><td id="l1"><td id="l2"><td id="l3"><td id="l4"><td id="l5"><td id="l6"></tr>
+	</table>
+	<aside>
+		<button title="validate your move" onclick="onvalidatemoveclick()" id="validate" disabled>0 - Validate</button>
+		<button onclick="onSelectSwapTilesClicked()" id="pass">Pass</button>
+	</aside>
 </p>
 <p>
 <span id="player_1_name">player one name</span>: <span class="player_name" id="player_1_points">0</span><br>
 <span id="player_2_name">player two name</span>: <span class="player_name" id="player_2_points">0</span>
 </p>
 <p id="remaining_letters"></p>
-<script>var CWDATA = <%- JSON.stringify(CWDATA) %></script>
+<script>var CWDATA = <%- CWDATA.data %></script>
 <script type="module" src="/static/index.js"></script>
 <%- include("footer") %>
