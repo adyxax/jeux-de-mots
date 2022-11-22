@@ -7,11 +7,31 @@
 	<tr><th>Partie</th><th>Joueur 1</th><th>Joueur 2</th></tr>
 	<% games.forEach((game) => { %>
 	<tr>
-		<td><a href="/games/<%= game.id %>"><%= game.data.title %></a></td>
-		<td><a href="/users/<%= game.player1 %>"><%= game.data.player1.name %></a></td>
-		<td><a href="/users/<%= game.player2 %>"><%= game.data.player2.name %></a></td>
+		<td><a href="/games/<%= game.id %>"><%= game.data.name %></a></td>
+		<td><a href="/users/<%= game.player1.id %>"><%= game.data.player1.username %></a></td>
+		<td><a href="/users/<%= game.player2.id %>"><%= game.data.player2.username %></a></td>
 	</tr>
 	<% }) %>
 </table>
 <% } %>
+<% if (Object.keys(errors).length === 0) { %>
+<h2>Nouvelle partie</h2>
+<% } else { %>
+<h2>Oops, erreur lors de la création d'une nouvelle partie!</h2>
+<% } %>
+<form action="/games" method="post">
+	<div class="form-field<%= errors.username ? ' form-field-invalid' : '' %>">
+		<input type="text" placeholder="Identifiant de votre adversaire" name="username" value="<%= formdata.username %>" required autofocus>
+		<% if (errors.username) { %>
+		<label class="error" for="username"><%= errors.username.msg %></label>
+		<% } %>
+	</div>
+	<div class="form-field<%= errors.name ? ' form-field-invalid' : '' %>">
+		<input type="text" placeholder="Nom ou titre de cette partie" name="name" value="<%= formdata.name %>" required>
+		<% if (errors.name) { %>
+		<label class="error" for="name"><%= errors.name.msg %></label>
+		<% } %>
+	</div>
+	<button type="submit">Démarrer</button>
+</form>
 <%- include("footer") %>

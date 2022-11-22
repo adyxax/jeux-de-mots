@@ -1,13 +1,66 @@
-import { listGames } from "../../database/games.js";
+import { validationResult } from "express-validator";
+
+import { getUserByUsername } from "../../database/users.js";
+import { listGames, newGame } from "../../database/games.js";
+import { emptyBoard, makeLettersBag, pickLetters, } from "../../utils/board.js";
+
+function makePageData(user) {
+	return {
+		title: "Parties",
+		user: user,
+		games: listGames(user.id),
+		formdata: {
+			name: "",
+			username: "",
+		},
+		errors: {},
+	};
+}
 
 export function root_get(req, res) {
-	const data = {
-		title: "Liste des parties",
-		user: req.session.user,
-		games: listGames(req.session.user.id),
-	};
-	for (let i=0; i<data.games.length; i++) {
-		data.games[i].data = JSON.parse(data.games[i].data);
+	let page = makePageData(req.session.user);
+	for (let i=0; i<page.games.length; i++) {
+		page.games[i].data = JSON.parse(page.games[i].data);
 	}
-	return res.render("games", data);
+	return res.render("games", page);
+}
+
+function makeNewGameData(name, player1, player2) {
+	let bag = makeLettersBag();
+	return {
+		board: emptyBoard,
+		name: name,
+		player1: {
+			id: player1.id,
+			username: player1.username,
+			score: 0,
+			letters: pickLetters(bag, 7),
+		},
+		player2: {
+			id: player2.id,
+			username: player2.username,
+			score: 0,
+			letters: pickLetters(bag, 7),
+		},
+	};
+}
+
+export function root_post(req, res) {
+	let page = makePageData(req.session.user);
+	page.formdata = req.body;
+	page.errors = validationResult(req).mapped();
+	if (Object.keys(page.errors).length === 0) {
+		const player2 = getUserByUsername(page.formdata.username);
+		if (player2) {
+			const gameId = newGame(req.session.user.id, player2.id, makeNewGameData(page.formdata.name, req.session.user, player2));
+			if (gameId) {
+				return res.redirect(302, `/games/${gameId}`);
+			} else {
+				page.errors.mismatch = "Erreur du serveur: la création de partie a échoué";
+			}
+		} else {
+			page.errors.username = { msg: "L'identifiant n'existe pas." };
+		}
+	}
+	return res.render("games", page);
 }

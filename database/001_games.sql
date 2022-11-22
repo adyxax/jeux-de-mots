@@ -10,3 +10,4 @@ CREATE TABLE games (
 );
 CREATE INDEX idx_games_player1 ON games(player1);
 CREATE INDEX idx_games_player2 ON games(player2);
+CREATE INDEX idx_games_last_move_at ON games(last_move_at);

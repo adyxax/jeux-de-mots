@@ -8,3 +8,4 @@ CREATE TABLE users (
 	email TEXT,
 	created_at DATE DEFAULT (datetime('now'))
 );
+-- TODO deleted column

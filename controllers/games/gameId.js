@@ -1,17 +1,24 @@
 import { getGame } from "../../database/games.js";
 
-function makePageData(user, cwdata) {
+function makePageData(user, game) {
 	return {
 		title: "Jouer",
 		user: user,
-		CWDATA: cwdata,
+		data: game,
 	};
 }
 
 export function gameId_get(req, res) {
-	const game = getGame(req.params.gameId);
-	// TODO redirect if null
-	let cwdata = game; // TODO reformat this object
-	console.log(cwdata);
-	return res.render("game", makePageData(req.session.user, cwdata));
+	const game = JSON.parse(getGame(req.params.gameId).data);
+	if (game) {
+		if (game.player1.id === req.session.user.id) {
+			game.letters = game.player1.letters;
+			delete game.player2.letters;
+		} else {
+			game.letters = game.player2.letters;
+			delete game.player1.letters;
+		}
+		return res.render("game", makePageData(req.session.user, game));
+	}
+	return res.redirect("/games");
 }
