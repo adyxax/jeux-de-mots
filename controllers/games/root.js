@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 
 import { getUserByUsername } from "../../database/users.js";
 import { listGames, newGame } from "../../database/games.js";
-import { emptyBoard, makeLettersBag, pickLetters, } from "../../utils/board.js";
+import { emptyBoard, Bag } from "../../utils/board.js";
 
 function makePageData(user) {
 	return {
@@ -26,7 +26,7 @@ export function root_get(req, res) {
 }
 
 function makeNewGameData(name, player1, player2) {
-	let bag = makeLettersBag();
+	let bag = new Bag();
 	return {
 		board: emptyBoard,
 		name: name,
@@ -34,13 +34,13 @@ function makeNewGameData(name, player1, player2) {
 			id: player1.id,
 			username: player1.username,
 			score: 0,
-			letters: pickLetters(bag, 7),
+			letters: bag.pick(7),
 		},
 		player2: {
 			id: player2.id,
 			username: player2.username,
 			score: 0,
-			letters: pickLetters(bag, 7),
+			letters: bag.pick(7),
 		},
 	};
 }
