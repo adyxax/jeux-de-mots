@@ -41,8 +41,7 @@ export function pickLetters(bag, count) {
 	}
 	let ret = [];
 	for (let i=0; i<count; i++) {
-		let n = Math.floor(Math.random() * bag.remaining) -1;
-		console.log(n);
+		let n = Math.floor(Math.random() * bag.remaining);
 		let j = 0;
 		for (;;) {
 			if (bag.letters[allLetters[j]].count === 0) {
@@ -55,8 +54,8 @@ export function pickLetters(bag, count) {
 				break;
 			}
 		}
-		console.log("j:", j);
 		bag.letters[allLetters[j]].count--;
+		bag.remaining--;
 		ret.push(allLetters[j]);
 	}
 	return ret;
