@@ -16,14 +16,14 @@ function makePageData(user) {
 
 export function login_get(req, res) {
 	if (req.session.user !== undefined) {
-		return res.redirect(302, "/play");
+		return res.redirect(302, "/games");
 	}
 	return res.render("login", makePageData(req.session.user));
 }
 
 export async function login_post(req, res) {
 	if (req.session.user !== undefined) {
-		return res.redirect(302, "/play");
+		return res.redirect(302, "/games");
 	}
 	let page = makePageData(req.session.user);
 	page.data = req.body;

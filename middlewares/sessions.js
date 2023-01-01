@@ -1,9 +1,12 @@
 import expressSession from "express-session";
-import sqlite from "better-sqlite3";
+import Database from "better-sqlite3";
 import sqliteStore from "better-sqlite3-session-store";
 
 const SqliteStore = sqliteStore(expressSession);
-const db = new sqlite("sessions.db", process.env.NODE_ENV === "production" ? null : { verbose: console.log });
+const db = new Database(
+	process.env.NODE_ENV === "test" ? "testsessions.db" : "sessions.db",
+	process.env.NODE_ENV === "development" ? { verbose: console.log } : null
+);
 const secret = process.env.SESSION_SECRET || "secret";
 const session = expressSession({
 	cookie: {

@@ -1,6 +1,6 @@
 "use strict";
 
-let CW = function(){
+let CW = function() {
 	//   102 letter tiles
 	//   0 point : blanches × 2.
 	//   1 point : E ×15, A ×9, I ×8, N ×6, O ×6, R ×6, S ×6, T ×6, U ×6, L ×5

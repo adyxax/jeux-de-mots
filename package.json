@@ -9,9 +9,11 @@
     "node": ">=18.10.0"
   },
   "devDependencies": {
+    "ava": "^5.1.0",
     "eslint": "^8.25.0",
     "eslint-plugin-node": "^11.1.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -23,5 +25,13 @@
     "express-session": "^1.17.3",
     "express-validator": "^6.14.2",
     "helmet": "^6.0.0"
+  },
+  "ava": {
+    "ignoredByWatcher": [
+      "GNUmakefile",
+      "testjdm.db",
+      "testsessions.db",
+      "testsessions.db-journal"
+    ]
   }
 }

@@ -15,5 +15,9 @@ app.use("/games", gamesRouter);
 app.use("/static", express.static("static"));
 app.use("/", rootRouter);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`listening on port ${port}`));
+if (process.env.NODE_ENV !== "test") {
+	const port = process.env.PORT || 3000;
+	app.listen(port, () => console.log(`listening on port ${port}`));
+}
+
+export default app;

@@ -6,7 +6,10 @@ const allMigrations = [
 	"database/001_games.sql",
 ];
 
-const db = new Database("jdm.db");
+const db = new Database(
+	process.env.NODE_ENV === "test" ? "testjdm.db" : "jdm.db",
+	process.env.NODE_ENV === "development" ? { verbose: console.log } : null
+);
 db.pragma("foreign_keys = ON");
 
 db.transaction(function migrate() {
