@@ -22,8 +22,7 @@
 			"error",
 			"unix"
 		],
-		"node/no-missing-import": ["error", {"allowModules": ["ava"]}],
-		"node/no-unpublished-import": ["error", {"allowModules": ["ava", "supertest"]}],
+		"node/no-unpublished-import": ["error", {"allowModules": ["vitest", "supertest"]}],
 		"quotes": [
 			"error",
 			"double"

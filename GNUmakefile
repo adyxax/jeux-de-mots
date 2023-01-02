@@ -3,7 +3,7 @@ SHELL:=bash
 
 .PHONY: check
 check: ## make check  # Check syntax of entry points
-	eslint main.js test.js test/
+	eslint main.js fixtures.js tests/
 	(cd static; eslint index.js)
 
 .PHONY: init
@@ -21,8 +21,8 @@ run: ## make run  # run a production nodejs web server
 .PHONY: test
 test: check ## make test  # run tests
 	@rm -f testjdm.db testsessions.db
-	NODE_ENV=test node test.js
-	NODE_ENV=test ava --watch test/
+	NODE_ENV=test node fixtures.js
+	NODE_ENV=test vitest
 	@rm -f testjdm.db testsessions.db
 
 help:
