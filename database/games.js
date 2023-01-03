@@ -8,7 +8,6 @@ export function getGame(id) {
 	try {
 		return getGameStatement.get(id);
 	} catch (err) {
-		console.log(err);
 		return null;
 	}
 }
@@ -26,7 +25,6 @@ export function newGame(player1, player2, data) {
 	try {
 		return newGameStatement.run(player1, player2, JSON.stringify(data)).lastInsertRowid;
 	} catch (err) {
-		console.log(err);
 		return null;
 	}
 }

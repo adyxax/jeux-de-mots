@@ -12,6 +12,8 @@ init: ## make init  # initialize project dependencies
 
 .PHONY: serve
 serve: ## make serve  # run a self reloading nodejs web server
+	rm -f jdm.db sessions.db
+	NODE_ENV=development node fixtures.js
 	NODE_ENV=development nodemon main.js
 
 .PHONY: run
@@ -22,7 +24,7 @@ run: ## make run  # run a production nodejs web server
 test: check ## make test  # run tests
 	@rm -f testjdm.db testsessions.db
 	NODE_ENV=test node fixtures.js
-	NODE_ENV=test vitest
+	NODE_ENV=test vitest --config .vite.config.ts
 	@rm -f testjdm.db testsessions.db
 
 help:

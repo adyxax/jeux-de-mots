@@ -19,9 +19,7 @@ function makePageData(user) {
 
 export function root_get(req, res) {
 	let page = makePageData(req.session.user);
-	for (let i=0; i<page.games.length; i++) {
-		page.games[i].data = JSON.parse(page.games[i].data);
-	}
+	page.games.forEach(g => g.data = JSON.parse(g.data));
 	return res.render("games", page);
 }
 
