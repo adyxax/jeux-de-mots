@@ -1,17 +1,17 @@
-import { validationResult } from "express-validator";
+import { validationResult } from 'express-validator';
 
-import { getUserByUsername } from "../../database/users.js";
-import { listGames, newGame } from "../../database/games.js";
-import { emptyBoard, Bag } from "../../utils/board.js";
+import { getUserByUsername } from '../../database/users.js';
+import { listGames, newGame } from '../../database/games.js';
+import { emptyBoard, Bag } from '../../utils/board.js';
 
 function makePageData(user) {
 	return {
-		title: "Parties",
+		title: 'Parties',
 		user: user,
 		games: listGames(user.id),
 		formdata: {
-			name: "",
-			username: "",
+			name: '',
+			username: '',
 		},
 		errors: {},
 	};
@@ -20,7 +20,7 @@ function makePageData(user) {
 export function root_get(req, res) {
 	let page = makePageData(req.session.user);
 	page.games.forEach(g => g.data = JSON.parse(g.data));
-	return res.render("games", page);
+	return res.render('games', page);
 }
 
 function makeNewGameData(name, player1, player2) {
@@ -54,11 +54,11 @@ export function root_post(req, res) {
 			if (gameId) {
 				return res.redirect(302, `/games/${gameId}`);
 			} else {
-				page.errors.mismatch = "Erreur du serveur: la création de partie a échoué";
+				page.errors.mismatch = 'Erreur du serveur: la création de partie a échoué';
 			}
 		} else {
-			page.errors.username = { msg: "L'identifiant n'existe pas." };
+			page.errors.username = { msg: 'L\'identifiant n\'existe pas.' };
 		}
 	}
-	return res.render("games", page);
+	return res.render('games', page);
 }

@@ -1,12 +1,12 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 
-import db from "./db.js";
+import db from './db.js';
 
 const saltRounds = 10;
 
-const createUserStatement = db.prepare("INSERT INTO users (username, hash, email) VALUES (?, ?, ?);");
-const getUserByUsernameStatement = db.prepare("SELECT id, username, email from users WHERE username = ?;");
-const loginStatement = db.prepare("SELECT id, username, hash, email FROM users WHERE username = ?;");
+const createUserStatement = db.prepare('INSERT INTO users (username, hash, email) VALUES (?, ?, ?);');
+const getUserByUsernameStatement = db.prepare('SELECT id, username, email from users WHERE username = ?;');
+const loginStatement = db.prepare('SELECT id, username, hash, email FROM users WHERE username = ?;');
 
 export async function createUser(username, password, email) {
 	const hash = await bcrypt.hash(password, saltRounds);

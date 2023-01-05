@@ -1,8 +1,8 @@
-import db from "./db.js";
+import db from './db.js';
 
-const getGameStatement = db.prepare("SELECT * from games where id = ?;");
-const listGamesStatement = db.prepare("SELECT * from games where player1 = ?1 OR player2 = ?1 ORDER BY last_move_at;");
-const newGameStatement = db.prepare("INSERT INTO games (player1, player2, data) VALUES (?, ?, ?);");
+const getGameStatement = db.prepare('SELECT * from games where id = ?;');
+const listGamesStatement = db.prepare('SELECT * from games where player1 = ?1 OR player2 = ?1 ORDER BY last_move_at;');
+const newGameStatement = db.prepare('INSERT INTO games (player1, player2, data) VALUES (?, ?, ?);');
 
 export function getGame(id) {
 	try {

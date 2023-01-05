@@ -1,15 +1,15 @@
-import { check } from "express-validator";
+import { check } from 'express-validator';
 
-export const checkName = check("name")
+export const checkName = check('name')
 	.trim()
 	.matches(/^[a-z][-a-z0-9_]+$/i)
-	.withMessage("Un identifiant d'au moins deux charactères est requis.");
+	.withMessage('Un identifiant d\'au moins deux charactères est requis.');
 
-export const checkPassword = check("password")
+export const checkPassword = check('password')
 	.isStrongPassword()
-	.withMessage("Veuillez utiliser un mot de passe d'au moins 8 caractères contenant au moins une minuscule, majuscule, chiffre et charactère spécial.");
+	.withMessage('Veuillez utiliser un mot de passe d\'au moins 8 caractères contenant au moins une minuscule, majuscule, chiffre et charactère spécial.');
 
-export const checkUsername = check("username")
+export const checkUsername = check('username')
 	.trim()
 	.matches(/^[a-z][-a-z0-9_]+$/i)
-	.withMessage("Un identifiant d'au moins deux charactères est requis.");
+	.withMessage('Un identifiant d\'au moins deux charactères est requis.');

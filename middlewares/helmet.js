@@ -1,10 +1,10 @@
-import helmet from "helmet";
+import helmet from 'helmet';
 
 const myHelmet = helmet({
 	contentSecurityPolicy: {
 		directives: {
 			...helmet.contentSecurityPolicy.getDefaultDirectives(),
-			"script-src": ["'self'", "'unsafe-inline'"],
+			'script-src': ['\'self\'', '\'unsafe-inline\''],
 		},
 	},
 });

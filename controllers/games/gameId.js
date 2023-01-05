@@ -1,8 +1,8 @@
-import { getGame } from "../../database/games.js";
+import { getGame } from '../../database/games.js';
 
 function makePageData(user, game) {
 	return {
-		title: "Jouer",
+		title: 'Jouer',
 		user: user,
 		data: game,
 	};
@@ -18,7 +18,7 @@ export function gameId_get(req, res) {
 			game.letters = game.player2.letters;
 			delete game.player1.letters;
 		}
-		return res.render("game", makePageData(req.session.user, game));
+		return res.render('game', makePageData(req.session.user, game));
 	}
-	return res.redirect("/games");
+	return res.redirect('/games');
 }
