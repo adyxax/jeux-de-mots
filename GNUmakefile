@@ -7,21 +7,21 @@ check: ## make check  # Check syntax of entry points
 	(cd static; eslint index.js)
 
 .PHONY: init
-init: ## make init  # initialize project dependencies
+init: ## make init   # initialize project dependencies
 	npm install
 
 .PHONY: serve
-serve: ## make serve  # run a self reloading nodejs web server
+serve: ## make serve  # run a self reloading development web server
 	rm -f jdm.db sessions.db
 	NODE_ENV=development node fixtures.js
 	NODE_ENV=development nodemon main.js
 
 .PHONY: run
-run: ## make run  # run a production nodejs web server
+run: ## make run    # run a production web server
 	NODE_ENV=production node main.js
 
 .PHONY: test
-test: check ## make test  # run tests
+test: check ## make test   # run tests
 	@rm -f testjdm.db testsessions.db
 	NODE_ENV=test node fixtures.js
 	NODE_ENV=test vitest --config .vite.config.ts
