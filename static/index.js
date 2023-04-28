@@ -179,7 +179,7 @@ let CW = function() {
 		if (x>0) { // we check if we are connected on the left of the first letter
 			connected ||= CWDATA.board[y][x-1] != "";
 		}
-		if (x === 7 && y === 7) connected = true; // starting tile
+		if (x === 7 && y === 7 && placed.length > 1) connected = true; // starting tile
 		// check if the placed letters are aligned and complete connection checks on the first and last letters
 		let direction = undefined;
 		if (x === lastx) {
