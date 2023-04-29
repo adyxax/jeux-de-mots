@@ -22,7 +22,7 @@ let CW = function() {
 	let cursor = undefined;
 	let placed = []; // a sorted array of letters to place
 
-	function makeBoardTileOnCLick(x, y) {
+	function makeBoardTileOnClick(x, y) {
 		return function() {
 			let me = document.getElementById(["s", y, "_", x].join(""));
 			if (me.innerHTML === "") {
@@ -377,7 +377,7 @@ let CW = function() {
 						letters[letter].count--;
 						total_remaining_letters--;
 					}
-					elt.onclick = makeBoardTileOnCLick(x, y);
+					elt.onclick = makeBoardTileOnClick(x, y);
 				}
 			}
 			// populate the rack
