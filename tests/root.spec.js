@@ -34,4 +34,17 @@ describe.concurrent('Root handlers tests', function() {
 			});
 		});
 	});
+
+	describe.concurrent('With invalid credentials', function() {
+		it('POST /login', async function() {
+			await request.post('/login').send('username=NonExistant&password=Alice42!')
+				.expect('Content-Type', /text\/html/)
+				.expect(403, /erreur de connexion/);
+		});
+		it('POST /login', async function() {
+			await request.post('/login').send('username=Alice&password=Invalid')
+				.expect('Content-Type', /text\/html/)
+				.expect(403, /erreur de connexion/);
+		});
+	});
 });

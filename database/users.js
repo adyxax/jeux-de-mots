@@ -34,6 +34,9 @@ export async function login(username, password) {
 		console.log(err);
 		return null;
 	}
+	if (user === undefined) {
+		return null;
+	}
 	const result = await bcrypt.compare(password, user.hash);
 	if (result === true) {
 		return {

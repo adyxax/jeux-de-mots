@@ -39,5 +39,6 @@ export async function login_post(req, res) {
 	if (Object.keys(page.errors).length === 0) {
 		return res.redirect(302, '/games');
 	}
+	res.status(403);
 	return res.render('login', page);
 }
